@@ -75,6 +75,9 @@ class BurgerBuilder extends Component {
   orderHandler = () => {
     this.setState({ ordering: true });
   };
+  orderCancelHandler = () => {
+    this.setState({ ordering: false });
+  };
   render() {
     const disableInfo = {
       ...this.state.ingredients
@@ -84,7 +87,7 @@ class BurgerBuilder extends Component {
     }
     return (
       <Aux>
-        <Modal show={this.state.ordering}>
+        <Modal show={this.state.ordering} modalClosed={this.orderCancelHandler}>
           <OrderSummary ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
