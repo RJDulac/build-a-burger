@@ -6,28 +6,30 @@ import Aux from "../Aux";
 //global error handling
 const withErrorHandler = (WrappedComponent, axios) => {
   return class extends Component {
-    constructor(props) {
-      super(props);
+    state = {
+      error: null
+    };
+    componentWillMount() {
       //set to null to clear req
-      axios.interceptors.request.use(req => {
+      this.reqInterceptor = axios.interceptors.request.use(req => {
         this.setState({ error: null });
         return req;
       });
       //set to error message if an error is sent
-      axios.interceptors.response.use(
+      this.resInterceptor = axios.interceptors.response.use(
         res => res,
         error => {
           this.setState({ error });
         }
       );
     }
-    state = {
-      error: null
-    };
-
     errorConfirmHandler = () => {
       this.setState({ error: null });
     };
+    componentWillUnmount() {
+      axios.interceptors.request.eject(this.reqInterceptor);
+      axios.interceptors.request.eject(this.resInterceptor);
+    }
     render() {
       return (
         <Aux>
