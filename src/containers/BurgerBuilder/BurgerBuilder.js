@@ -60,7 +60,6 @@ class BurgerBuilder extends Component {
                 orderContinue={this.orderContinueHandler}
                 price={this.props.price.toFixed(2)}
               />
-              )}
             </Modal>
             <Burger ingredients={this.props.ings} />
             <BuildControls

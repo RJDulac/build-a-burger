@@ -29,28 +29,15 @@ export const fetchIngredientsFailed = () => {
 };
 
 export const initIngredients = () => {
-  return dispatch => {
-    axios
-      .get("https://react-my-burger-29e0f.firebaseio.com/ingredients.json")
-      .then(response => {
-        dispatch(setIngredients(response.data));
-      })
-      .catch(error => {
-        dispatch(fetchIngredientsFailed());
-      });
+  return async dispatch => {
+    //can put async code here
+    try {
+      const response = await axios.get(
+        "https://react-my-burger-29e0f.firebaseio.com/ingredients.json"
+      );
+      dispatch(setIngredients(response.data));
+    } catch (error) {
+      dispatch(actionTypes.FETCH_INGREDIENTS_FAILED);
+    }
   };
 };
-
-// export const initIngredients = () => {
-//   return async dispatch => {
-//     //can put async code here
-//     try {
-//       const response = await axios.get(
-//         "https://react-my-burger-29e0f.firebaseio.com/ingredients.json"
-//       );
-//       dispatch(setIngredients(response.data));
-//     } catch (error) {
-//       dispatch(actionTypes.FETCH_INGREDIENTS_FAILED);
-//     }
-//   };
-// };
