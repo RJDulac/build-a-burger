@@ -16,6 +16,9 @@ class BurgerBuilder extends Component {
   state = {
     ordering: false
   };
+  componentDidMount() {
+    this.props.onInitIngredients();
+  }
   updatePurchaseState(ingredients) {
     const sum = Object.keys(ingredients)
       .map(igkey => {
@@ -44,7 +47,7 @@ class BurgerBuilder extends Component {
     }
     return (
       <Aux>
-        {this.state.error ? <p>Error: Ingredients Can't be displayed</p> : null}
+        {this.props.error ? <p>Error: Ingredients Can't be displayed</p> : null}
         {this.props.ings ? (
           <Aux>
             <Modal
@@ -79,15 +82,18 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
   return {
     ings: state.ingredients,
-    price: state.totalPrice
+    price: state.totalPrice,
+    error: state.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onIngredientAdded: ingName => dispatch(ingName),
+    onIngredientAdded: ingName =>
+      dispatch(burgerBuilderActions.addIngredient(ingName)),
     onIngredientRemoved: ingName =>
-      dispatch(burgerBuilderActions.removeIngredient(ingName))
+      dispatch(burgerBuilderActions.removeIngredient(ingName)),
+    onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients())
   };
 };
 export default connect(
